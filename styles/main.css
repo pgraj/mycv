@@ -1,0 +1,20 @@
+/* Custom Animations and Hover Effects */
+.timeline-item:hover {
+    transform: scale(1.02);
+    transition: transform 0.3s ease;
+    background-color: rgba(66, 153, 225, 0.05);
+}
+
+.skill-badge {
+    display: inline-block;
+    background-color: #4299E1;
+    color: white;
+    padding: 5px 10px;
+    margin: 5px;
+    border-radius: 20px;
+    transition: background-color 0.3s;
+}
+
+.skill-badge:hover {
+    background-color: #2C5282;
+}
