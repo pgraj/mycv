@@ -6,7 +6,7 @@ Seasoned Program Director with 20+ years of transformative experience in network
 ### 🔧 Technical Expertise
 - **Program Management**: PMP, MSP, SAFe Agile
 - **Cloud Technologies**: AWS Solutions Architect
-- **Infrastructure**: Network Design, Cloud Migration
+- **Infrastructure**: Data and Digital Transformation, Network Design, Cloud Migration
 - **Governance**: ITIL, TOGAF Enterprise Architecture
 
 ### 🏆 Professional Highlights
