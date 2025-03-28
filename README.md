@@ -28,9 +28,9 @@ Seasoned Program Director with 20+ years of transformative experience in network
 - Optimised cross-departmental collaboration
 
 ### 🔗 Connect with Me
-- [LinkedIn](#)
-- [Professional Website](#)
-- [Email](#)
+- [LinkedIn](https://www.linkedin.com/in/govindarajpanditha/)
+- [Professional Website](https://pgraj.github.io/MyDetails/)
+- [Email](govindaraj.panditha@outlook.com)
 
 *Transforming Technology, Driving Innovation* 💡
 Last edited 2 minutes ago
