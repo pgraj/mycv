@@ -25,7 +25,7 @@ Seasoned Program Director with 20+ years of transformative experience in network
 ### 📊 Career Impact
 - Improved workflow efficiency by 30%
 - Zero downtime during system migrations
-- Optimized cross-departmental collaboration
+- Optimised cross-departmental collaboration
 
 ### 🔗 Connect with Me
 - [LinkedIn](#)
