@@ -6,13 +6,36 @@
     <title>Govindaraj Panditha - Senior Program Manager</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
-    <!-- Custom CSS - Note the relative path -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" rel="stylesheet">
     <link href="styles/main.css" rel="stylesheet">
     <style>
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #0D6E9A;
+            border-radius: 5px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #054865;
+        }
+
+        /* Timeline Styling */
         .timeline-item {
             position: relative;
             padding-left: 30px;
             margin-bottom: 20px;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.8s ease;
+        }
+        .timeline-item.fade-in {
+            opacity: 1;
+            transform: translateY(0);
         }
         .timeline-item::before {
             content: '';
@@ -22,21 +45,34 @@
             border-radius: 50%;
             left: -10px;
             top: 0;
-            background-color: #0D6E9A; /* Oceanic blue */
+            background-color: #0D6E9A;
+            transition: transform 0.3s ease;
+        }
+        .timeline-item:hover::before {
+            transform: scale(1.3);
         }
         .timeline-item::after {
             content: '';
             position: absolute;
             width: 2px;
             height: calc(100% + 20px);
-            background-color: #0D6E9A; /* Oceanic blue */
+            background-color: #0D6E9A;
             left: 0;
             top: 20px;
         }
+
+        /* About Section Styling */
         .about-paragraph {
             position: relative;
             padding-left: 30px;
             margin-bottom: 16px;
+            opacity: 0;
+            transform: translateX(-20px);
+            transition: all 0.5s ease;
+        }
+        .about-paragraph.fade-in {
+            opacity: 1;
+            transform: translateX(0);
         }
         .about-paragraph::before {
             font-family: "Font Awesome 5 Free";
@@ -44,35 +80,30 @@
             position: absolute;
             left: 0;
             top: 2px;
-            color: #0D6E9A; /* Oceanic blue */
+            color: #0D6E9A;
+            transition: transform 0.3s ease;
         }
-        .about-paragraph.vision::before {
-            content: "\f0eb";  /* lightbulb */
+        .about-paragraph:hover::before {
+            transform: scale(1.3) rotate(15deg);
         }
-        .about-paragraph.experience::before {
-            content: "\f0b1";  /* briefcase */
-        }
-        .about-paragraph.expertise::before {
-            content: "\f085";  /* cogs */
-        }
-        .about-paragraph.unique::before {
-            content: "\f005";  /* star */
-        }
-        .about-paragraph.transform::before {
-            content: "\f0c2";  /* cloud */
-        }
-        .about-paragraph.connect::before {
-            content: "\f2b5";  /* handshake */
-        }
+        .about-paragraph.vision::before { content: "\f0eb"; }
+        .about-paragraph.experience::before { content: "\f0b1"; }
+        .about-paragraph.expertise::before { content: "\f085"; }
+        .about-paragraph.unique::before { content: "\f005"; }
+        .about-paragraph.transform::before { content: "\f0c2"; }
+        .about-paragraph.connect::before { content: "\f2b5"; }
+
+        /* Color and Background Styling */
         .bg-gradient {
-            background: linear-gradient(135deg, #0D6E9A 0%, #054865 100%); /* Oceanic blue gradient */
+            background: linear-gradient(135deg, #0D6E9A 0%, #054865 100%);
         }
         .card-hover {
-            transition: all 0.3s ease;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
         }
         .card-hover:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            transform: translateY(-10px);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
         }
         .oceanic-blue {
             color: #0D6E9A;
@@ -83,176 +114,575 @@
         .bg-oceanic-light {
             background-color: #E5F3F8;
         }
+
+        /* Footer Icons Styling */
         .footer-icon {
             color: white;
+            transition: all 0.3s ease;
         }
         .social-icons {
             display: flex;
             justify-content: center;
-            gap: 12px; /* Creates approximately 3mm spacing between icons */
+            gap: 16px;
         }
+        .social-icons a {
+            position: relative;
+            overflow: hidden;
+        }
+        .social-icons a:hover .footer-icon {
+            transform: translateY(-5px);
+        }
+        .social-icons a::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 2px;
+            bottom: -5px;
+            left: 0;
+            background-color: #fff;
+            transform: scaleX(0);
+            transform-origin: bottom right;
+            transition: transform 0.3s ease;
+        }
+        .social-icons a:hover::after {
+            transform: scaleX(1);
+            transform-origin: bottom left;
+        }
+
+        /* Skill Item Animation */
+        .skill-item {
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+        .skill-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: rgba(13, 110, 154, 0.1);
+            transition: all 0.5s ease;
+            z-index: -1;
+        }
+        .skill-item:hover::before {
+            left: 0;
+        }
+        .skill-item:hover {
+            transform: translateX(5px);
+        }
+
+        /* Floating Animation for Header */
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-15px); }
+            100% { transform: translateY(0px); }
+        }
+        .floating {
+            animation: float 6s ease-in-out infinite;
+        }
+
+        /* Download Button Effects */
         .download-btn {
             color: white !important;
+            background-size: 200% auto;
+            background-image: linear-gradient(to right, #0D6E9A 0%, #1A93C9 50%, #0D6E9A 100%);
+            transition: 0.5s;
+            position: relative;
+            overflow: hidden;
+        }
+        .download-btn:hover {
+            background-position: right center;
+        }
+        .download-btn::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 5px;
+            height: 5px;
+            background: rgba(255, 255, 255, 0.5);
+            opacity: 0;
+            border-radius: 100%;
+            transform: scale(1, 1) translate(-50%);
+            transform-origin: 50% 50%;
+        }
+        .download-btn:hover::after {
+            animation: ripple 1s ease-out;
+        }
+        @keyframes ripple {
+            0% {
+                transform: scale(0, 0);
+                opacity: 0.5;
+            }
+            100% {
+                transform: scale(20, 20);
+                opacity: 0;
+            }
+        }
+
+        /* Progress bar for skills */
+        .progress-bar {
+            height: 8px;
+            width: 0;
+            background: linear-gradient(to right, #0D6E9A, #54c5eb);
+            border-radius: 4px;
+            margin-top: 5px;
+            transition: width 1.5s ease-in-out;
+        }
+
+        /* Business value section */
+        .value-card {
+            border-left: 4px solid #0D6E9A;
+            transition: all 0.3s ease;
+        }
+        .value-card:hover {
+            border-left-width: 8px;
+            transform: translateX(5px);
+        }
+        
+        /* Typewriter effect for header */
+        .typewriter h1 {
+            overflow: hidden;
+            border-right: .15em solid #0D6E9A;
+            white-space: nowrap;
+            margin: 0 auto;
+            animation: 
+                typing 3.5s steps(40, end),
+                blink-caret .75s step-end infinite;
+        }
+        @keyframes typing {
+            from { width: 0 }
+            to { width: 100% }
+        }
+        @keyframes blink-caret {
+            from, to { border-color: transparent }
+            50% { border-color: #0D6E9A; }
+        }
+        
+        /* Badge styling */
+        .badge {
+            background-color: #E5F3F8;
+            color: #0D6E9A;
+            padding: 0.25rem 0.5rem;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            margin: 0.25rem;
+            transition: all 0.3s ease;
+        }
+        .badge:hover {
+            background-color: #0D6E9A;
+            color: white;
+            transform: scale(1.05);
+        }
+        
+        /* Methodology highlight */
+        .methodology-item {
+            display: flex;
+            align-items: center;
+            padding: 0.5rem 0;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: all 0.5s ease;
+        }
+        .methodology-item.fade-in {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .methodology-icon {
+            background-color: #E5F3F8;
+            color: #0D6E9A;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 1rem;
+            transition: all 0.3s ease;
+        }
+        .methodology-item:hover .methodology-icon {
+            background-color: #0D6E9A;
+            color: white;
+            transform: rotate(15deg);
         }
     </style>
 </head>
 <body class="bg-gray-50 text-gray-900">
     <div class="container mx-auto px-4 py-8 max-w-4xl">
-        <header class="text-center mb-12">
-            <!-- Removed the GP circle -->
-            <h1 class="text-5xl font-bold oceanic-blue mb-4">Govindaraj Panditha</h1>
-            <p class="text-2xl text-gray-600">Senior Executive | Digital Transformation Expert</p>
+        <header class="text-center mb-12 animate__animated animate__fadeIn">
+            <div class="floating">
+                <div class="typewriter mx-auto max-w-xl">
+                    <h1 class="text-5xl font-bold oceanic-blue mb-4">Govindaraj Panditha</h1>
+                </div>
+            </div>
+            <p class="text-2xl text-gray-600 animate__animated animate__fadeInUp animate__delay-1s">
+                Senior Program Manager | Business Value Delivery Expert
+            </p>
+            <div class="flex flex-wrap justify-center mt-4 animate__animated animate__fadeIn animate__delay-2s">
+                <span class="badge m-1"><i class="fas fa-award mr-1"></i> PMP</span>
+                <span class="badge m-1"><i class="fas fa-project-diagram mr-1"></i> MSP® F&P</span>
+                <span class="badge m-1"><i class="fas fa-cogs mr-1"></i> SAFe Agilist</span>
+                <span class="badge m-1"><i class="fas fa-cloud mr-1"></i> AWS Certified</span>
+                <span class="badge m-1"><i class="fab fa-salesforce mr-1"></i> Salesforce</span>
+            </div>
         </header>
 
-        <section class="bg-white shadow-xl rounded-xl p-8 mb-10 card-hover">
+        <section class="bg-white shadow-xl rounded-xl p-8 mb-10 card-hover animate__animated animate__fadeInUp">
             <div class="flex items-center mb-6">
-                <div class="bg-oceanic-light p-3 rounded-full mr-4">
+                <div class="bg-oceanic-light p-3 rounded-full mr-4 animate__animated animate__pulse animate__infinite animate__slower">
                     <i class="fas fa-user text-2xl oceanic-blue"></i>
                 </div>
                 <h2 class="text-3xl font-semibold oceanic-blue">About Me</h2>
             </div>
-            <div class="space-y-4 text-lg text-gray-700">
+            <div class="space-y-4 text-lg text-gray-700" id="about-section">
                 <p class="about-paragraph vision">
-                    I am a Technology and Innovation advocate passionate about transforming businesses through Big Data, Cloud Computing, and Digital Transformation. As a Program Manager & Delivery Leader with over 20 years of experience, I specialise in delivering large-scale technology solutions that enhance operational efficiency, increase productivity, and drive customer satisfaction.
+                    I am a Program Management and Business Transformation expert passionate about driving business value through technology-enabled solutions. With over 20 years of experience, I excel at bridging the gap between business needs and technical implementation to deliver measurable results.
                 </p>
                 <p class="about-paragraph experience">
-                    With an understanding in AWS Cloud, Salesforce CRM, and Integration Technologies, I thrive at the intersection of business and technology.
+                    My approach combines strategic vision with hands-on delivery expertise, ensuring that program outcomes align directly with organisational objectives and provide tangible return on investment.
                 </p>
                 <p class="about-paragraph expertise">
-                    I have a proven track record of leading complex programs from inception to completion, ensuring seamless execution while fostering collaboration between stakeholders, vendors, and cross-functional teams.
-                </p>
-                <p class="about-paragraph unique">
-                    My expertise extends beyond project delivery—I excel in building strategic roadmaps, managing multi-million-dollar programs, and driving innovation through cutting-edge platforms.
-                </p>
-                <p class="about-paragraph transform">
-                    What sets me apart is my ability to translate business needs into scalable, future-proof solutions, making me a trusted partner to customers and executives alike.
-                </p>
-                <p class="about-paragraph connect">
-                    Whether it's cloud migration, AI-driven automation, or enterprise-wide digital transformation, I bring the leadership, vision, and execution needed to turn ambitious ideas into reality. Let's connect and explore how I can help drive success for your organisation!
+                    I have a proven track record of leading complex cross-functional programs from inception to completion, fostering collaboration between business stakeholders, vendors, and technical teams to create seamless solutions that drive operational excellence.
                 </p>
             </div>
         </section>
 
-        <div class="grid md:grid-cols-2 gap-8 mb-10">
-            <section class="bg-white shadow-xl rounded-xl p-8 card-hover">
-                <div class="flex items-center mb-6">
-                    <div class="bg-oceanic-light p-3 rounded-full mr-4">
-                        <i class="fas fa-brain text-2xl oceanic-blue"></i>
-                    </div>
-                    <h2 class="text-3xl font-semibold oceanic-blue">Key Skills</h2>
-                </div>
-                <div class="space-y-4">
-                    <div class="flex items-center bg-oceanic-light p-3 rounded-lg">
-                        <i class="fas fa-project-diagram oceanic-blue mr-3"></i>
-                        <span>Program & Portfolio Management (PMP, MSP, SAFe Agile)</span>
-                    </div>
-                    <div class="flex items-center bg-oceanic-light p-3 rounded-lg">
-                        <i class="fas fa-cloud oceanic-blue mr-3"></i>
-                        <span>Cloud & Data Migration (AWS, Data Lakes)</span>
-                    </div>
-                    <div class="flex items-center bg-oceanic-light p-3 rounded-lg">
-                        <i class="fas fa-network-wired oceanic-blue mr-3"></i>
-                        <span>Network Infrastructure Design & Optimization</span>
-                    </div>
-                    <div class="flex items-center bg-oceanic-light p-3 rounded-lg">
-                        <i class="fas fa-users oceanic-blue mr-3"></i>
-                        <span>C-Level Stakeholder Engagement</span>
-                    </div>
-                    <div class="flex items-center bg-oceanic-light p-3 rounded-lg">
-                        <i class="fas fa-shield-alt oceanic-blue mr-3"></i>
-                        <span>Risk & Governance Management</span>
-                    </div>
-                </div>
-            </section>
-
-            <section class="bg-white shadow-xl rounded-xl p-8 card-hover">
-                <div class="flex items-center mb-6">
-                    <div class="bg-oceanic-light p-3 rounded-full mr-4">
-                        <i class="fas fa-certificate text-2xl oceanic-blue"></i>
-                    </div>
-                    <h2 class="text-3xl font-semibold oceanic-blue">Certifications</h2>
-                </div>
-                <div class="space-y-4">
-                    <div class="flex items-center bg-oceanic-light p-3 rounded-lg">
-                        <i class="fas fa-award oceanic-blue mr-3"></i>
-                        <span>PMP (Project Management Professional)</span>
-                    </div>
-                    <div class="flex items-center bg-oceanic-light p-3 rounded-lg">
-                        <i class="fas fa-cloud oceanic-blue mr-3"></i>
-                        <span>AWS Certified Solutions Architect</span>
-                    </div>
-                    <div class="flex items-center bg-oceanic-light p-3 rounded-lg">
-                        <i class="fas fa-cogs oceanic-blue mr-3"></i>
-                        <span>SAFe Agilist (5.0 & 6.0)</span>
-                    </div>
-                    <div class="flex items-center bg-oceanic-light p-3 rounded-lg">
-                        <i class="fas fa-globe oceanic-blue mr-3"></i>
-                        <span>TOGAF® Enterprise Architecture</span>
-                    </div>
-                    <div class="flex items-center bg-oceanic-light p-3 rounded-lg">
-                        <i class="fas fa-tasks oceanic-blue mr-3"></i>
-                        <span>ITIL V3 Foundation</span>
-                    </div>
-                </div>
-            </section>
-        </div>
-
-        <section class="bg-white shadow-xl rounded-xl p-8 mb-10 card-hover">
+        <section class="bg-white shadow-xl rounded-xl p-8 mb-10 card-hover animate__animated animate__fadeInUp animate__delay-1s">
             <div class="flex items-center mb-6">
                 <div class="bg-oceanic-light p-3 rounded-full mr-4">
-                    <i class="fas fa-chart-line text-2xl oceanic-blue"></i>
+                    <i class="fas fa-handshake text-2xl oceanic-blue"></i>
                 </div>
-                <h2 class="text-3xl font-semibold oceanic-blue">Professional Highlights</h2>
+                <h2 class="text-3xl font-semibold oceanic-blue">Business Value Delivery</h2>
             </div>
-            <div class="space-y-6">
-                <div class="timeline-item">
-                    <h3 class="text-xl font-semibold oceanic-blue">Digital Transformation Leader</h3>
-                    <p class="text-gray-600">
-                        Delivered multiple high-impact programs including:
-                        • $3M+ Infrastructure Modernization at Football Australia
-                        • $2.8M Digital Transformation at Cloudwerx
-                        • $4M Data Transformation at Optus
-                    </p>
+            <div class="space-y-6" id="business-value-section">
+                <div class="value-card p-4 bg-gray-50 rounded-lg shadow-sm">
+                    <h3 class="text-xl font-semibold oceanic-blue mb-2">Stakeholder Alignment & Governance</h3>
+                    <p class="text-gray-700">Skilled at establishing effective governance frameworks that align business and IT stakeholders, ensuring transparency, accountability, and seamless communication throughout program lifecycles. My approach creates clarity around roles, responsibilities, and decision-making authorities.</p>
                 </div>
-                <div class="timeline-item">
-                    <h3 class="text-xl font-semibold oceanic-blue">Cloud Migration Expert</h3>
-                    <p class="text-gray-600">
-                        Successfully migrated 300+ applications to AWS, driving:
-                        • Cost reduction
-                        • Operational efficiency improvements
-                        • Enhanced cybersecurity measures
-                    </p>
+                
+                <div class="value-card p-4 bg-gray-50 rounded-lg shadow-sm">
+                    <h3 class="text-xl font-semibold oceanic-blue mb-2">ROI Realisation & Benefits Tracking</h3>
+                    <p class="text-gray-700">Implement robust methodologies to define, measure, and track benefits realisation, ensuring that program investments deliver tangible business outcomes and measurable return on investment. I develop KPIs that directly connect technical deliverables to business performance metrics.</p>
                 </div>
+                
+                <div class="value-card p-4 bg-gray-50 rounded-lg shadow-sm">
+                    <h3 class="text-xl font-semibold oceanic-blue mb-2">Business Process Optimisation</h3>
+                    <p class="text-gray-700">Expert at identifying opportunities for process improvement and implementing technology solutions that enhance efficiency, reduce costs, and improve customer experience. My holistic approach ensures that technical implementations drive meaningful business transformation.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="bg-white shadow-xl rounded-xl p-8 mb-10 card-hover animate__animated animate__fadeInLeft">
+            <div class="flex items-center mb-6">
+                <div class="bg-oceanic-light p-3 rounded-full mr-4">
+                    <i class="fas fa-project-diagram text-2xl oceanic-blue"></i>
+                </div>
+                <h2 class="text-3xl font-semibold oceanic-blue">Program Management Excellence</h2>
+            </div>
+            <div class="space-y-6" id="program-management-section">
+                <div class="skill-item bg-oceanic-light p-3 rounded-lg">
+                    <div class="flex items-center">
+                        <i class="fas fa-tasks oceanic-blue mr-3"></i>
+                        <span>Strategic Program Planning & Roadmapping</span>
+                    </div>
+                    <div class="progress-bar" data-width="95"></div>
+                </div>
+                <div class="skill-item bg-oceanic-light p-3 rounded-lg">
+                    <div class="flex items-center">
+                        <i class="fas fa-users-cog oceanic-blue mr-3"></i>
+                        <span>Multi-vendor Management & Integration</span>
+                    </div>
+                    <div class="progress-bar" data-width="90"></div>
+                </div>
+                <div class="skill-item bg-oceanic-light p-3 rounded-lg">
+                    <div class="flex items-center">
+                        <i class="fas fa-user-tie oceanic-blue mr-3"></i>
+                        <span>Executive Stakeholder Engagement</span>
+                    </div>
+                    <div class="progress-bar" data-width="95"></div>
+                </div>
+                <div class="skill-item bg-oceanic-light p-3 rounded-lg">
+                    <div class="flex items-center">
+                        <i class="fas fa-chart-line oceanic-blue mr-3"></i>
+                        <span>Financial Management & Budget Control</span>
+                    </div>
+                    <div class="progress-bar" data-width="90"></div>
+                </div>
+                <div class="skill-item bg-oceanic-light p-3 rounded-lg">
+                    <div class="flex items-center">
+                        <i class="fas fa-shield-alt oceanic-blue mr-3"></i>
+                        <span>Risk Management & Mitigation Strategies</span>
+                    </div>
+                    <div class="progress-bar" data-width="95"></div>
+                </div>
+            </div>
+            
+            <div class="mt-8">
+                <h3 class="text-xl font-semibold oceanic-blue mb-4">Program Management Methodologies</h3>
+                <div class="grid md:grid-cols-2 gap-4" id="methodologies-section">
+                    <div class="methodology-item">
+                        <div class="methodology-icon">
+                            <i class="fas fa-project-diagram"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-semibold">MSP® (Managing Successful Programmes)</h4>
+                            <p class="text-sm text-gray-600">Foundation & Practitioner</p>
+                        </div>
+                    </div>
+                    <div class="methodology-item">
+                        <div class="methodology-icon">
+                            <i class="fas fa-tasks"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-semibold">PMP® (Project Management Professional)</h4>
+                            <p class="text-sm text-gray-600">PMI Certified</p>
+                        </div>
+                    </div>
+                    <div class="methodology-item">
+                        <div class="methodology-icon">
+                            <i class="fas fa-sync-alt"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-semibold">SAFe® Agile</h4>
+                            <p class="text-sm text-gray-600">Certified SAFe Agilist 5.0 & 6.0</p>
+                        </div>
+                    </div>
+                    <div class="methodology-item">
+                        <div class="methodology-icon">
+                            <i class="fas fa-sitemap"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-semibold">TOGAF® Enterprise Architecture</h4>
+                            <p class="text-sm text-gray-600">Certified Practitioner</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="bg-white shadow-xl rounded-xl p-8 mb-10 card-hover animate__animated animate__fadeInRight">
+            <div class="flex items-center mb-6">
+                <div class="bg-oceanic-light p-3 rounded-full mr-4">
+                    <i class="fas fa-lightbulb text-2xl oceanic-blue"></i>
+                </div>
+                <h2 class="text-3xl font-semibold oceanic-blue">Technical & Business Integration</h2>
+            </div>
+            <div class="grid md:grid-cols-2 gap-6">
+                <div>
+                    <h3 class="text-xl font-semibold oceanic-blue mb-3">Technical Expertise</h3>
+                    <div class="space-y-3">
+                        <div class="skill-item bg-oceanic-light p-3 rounded-lg">
+                            <div class="flex items-center">
+                                <i class="fas fa-cloud oceanic-blue mr-3"></i>
+                                <span>AWS Cloud Architecture</span>
+                            </div>
+                            <div class="progress-bar" data-width="90"></div>
+                        </div>
+                        <div class="skill-item bg-oceanic-light p-3 rounded-lg">
+                            <div class="flex items-center">
+                                <i class="fab fa-salesforce oceanic-blue mr-3"></i>
+                                <span>Salesforce Implementation</span>
+                            </div>
+                            <div class="progress-bar" data-width="85"></div>
+                        </div>
+                        <div class="skill-item bg-oceanic-light p-3 rounded-lg">
+                            <div class="flex items-center">
+                                <i class="fas fa-database oceanic-blue mr-3"></i>
+                                <span>Data Migration & Governance</span>
+                            </div>
+                            <div class="progress-bar" data-width="90"></div>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <h3 class="text-xl font-semibold oceanic-blue mb-3">Business Domain Knowledge</h3>
+                    <div class="space-y-3">
+                        <div class="skill-item bg-oceanic-light p-3 rounded-lg">
+                            <div class="flex items-center">
+                                <i class="fas fa-chart-pie oceanic-blue mr-3"></i>
+                                <span>Business Process Redesign</span>
+                            </div>
+                            <div class="progress-bar" data-width="95"></div>
+                        </div>
+                        <div class="skill-item bg-oceanic-light p-3 rounded-lg">
+                            <div class="flex items-center">
+                                <i class="fas fa-exchange-alt oceanic-blue mr-3"></i>
+                                <span>Change Management</span>
+                            </div>
+                            <div class="progress-bar" data-width="90"></div>
+                        </div>
+                        <div class="skill-item bg-oceanic-light p-3 rounded-lg">
+                            <div class="flex items-center">
+                                <i class="fas fa-bullseye oceanic-blue mr-3"></i>
+                                <span>Strategic Business Planning</span>
+                            </div>
+                            <div class="progress-bar" data-width="95"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="bg-white shadow-xl rounded-xl p-8 mb-10 card-hover animate__animated animate__fadeInUp animate__delay-1s">
+            <div class="flex items-center mb-6">
+                <div class="bg-oceanic-light p-3 rounded-full mr-4">
+                    <i class="fas fa-trophy text-2xl oceanic-blue animate__animated animate__tada animate__delay-2s"></i>
+                </div>
+                <h2 class="text-3xl font-semibold oceanic-blue">Delivery Success Stories</h2>
+            </div>
+            <div class="space-y-6" id="highlights-section">
                 <div class="timeline-item">
-                    <h3 class="text-xl font-semibold oceanic-blue">Strategic Program Management</h3>
-                    <p class="text-gray-600">
-                        Consistently achieved:
-                        • 95% project success rate
-                        • 30% workflow efficiency improvement
-                        • Zero downtime during major system migrations
+                    <h3 class="text-xl font-semibold oceanic-blue">Enterprise Digital Transformation</h3>
+                    <div class="flex flex-wrap">
+                        <span class="badge m-1">Football Australia</span>
+                        <span class="badge m-1">$3M+ Budget</span>
+                    </div>
+                    <p class="text-gray-600 mt-2">
+                        Led a comprehensive infrastructure modernisation initiative that:
                     </p>
+                    <ul class="ml-5 mt-2 list-disc text-gray-600">
+                        <li class="mb-1">Reduced operational costs by 30% through cloud migration</li>
+                        <li class="mb-1">Improved system reliability with 99.9% uptime achievement</li>
+                        <li>Enhanced business agility with 40% faster deployment cycles</li>
+                    </ul>
+                    <p class="mt-2 text-gray-700 italic">Delivered through effective business-IT alignment and clear stakeholder communication channels.</p>
+                </div>
+                
+                <div class="timeline-item">
+                    <h3 class="text-xl font-semibold oceanic-blue">CRM & Customer Experience Transformation</h3>
+                    <div class="flex flex-wrap">
+                        <span class="badge m-1">Cloudwerx</span>
+                        <span class="badge m-1">$2.8M Budget</span>
+                    </div>
+                    <p class="text-gray-600 mt-2">
+                        Orchestrated end-to-end digital transformation program:
+                    </p>
+                    <ul class="ml-5 mt-2 list-disc text-gray-600">
+                        <li class="mb-1">Implemented Salesforce solution that increased customer satisfaction by 35%</li>
+                        <li class="mb-1">Streamlined business processes, reducing manual effort by 60%</li>
+                        <li>Integrated legacy systems with modern platforms, enabling single customer view</li>
+                    </ul>
+                    <p class="mt-2 text-gray-700 italic">Success achieved through close business stakeholder collaboration and iterative value delivery approach.</p>
+                </div>
+                
+                <div class="timeline-item">
+                    <h3 class="text-xl font-semibold oceanic-blue">Data-Driven Business Intelligence Program</h3>
+                    <div class="flex flex-wrap">
+                        <span class="badge m-1">Optus</span>
+                        <span class="badge m-1">$4M Budget</span>
+                    </div>
+                    <p class="text-gray-600 mt-2">
+                        Spearheaded enterprise data transformation:
+                    </p>
+                    <ul class="ml-5 mt-2 list-disc text-gray-600">
+                        <li class="mb-1">Spearheaded the enterprise-wide implementation of Big Data solutions through innovative Data Lake architecture, resulting in improved analytical capabilities and actionable business intelligence.</li>
+                        <li class="mb-1">Implemented data governance framework ensuring regulatory compliance</li>
+                        <li>Delivered executive dashboards that expedited decision-making by 40%</li>
+                    </ul>
+                    <p class="mt-2 text-gray-700 italic">Bridged business requirements and technical solution design through continuous engagement with key stakeholders.</p>
                 </div>
             </div>
         </section>
         
         <!-- Download Resume Button Section -->
-        <div class="text-center my-10">
-            <a href="assets/Govindaraj_Panditha_Resume.pdf" download class="bg-gradient hover:bg-blue-800 download-btn font-bold py-4 px-8 rounded-lg shadow-xl transition duration-300 inline-flex items-center transform hover:scale-105">
+        <div class="text-center my-10 animate__animated animate__pulse animate__infinite">
+            <a href="assets/Govindaraj_Panditha_Resume.pdf" download class="download-btn font-bold py-4 px-8 rounded-lg shadow-xl transition duration-300 inline-flex items-center">
                 <i class="fas fa-download mr-3 text-xl text-white"></i> Download Complete Resume
             </a>
+            <div class="mt-6">
+                <a href="https://www.credly.com/users/govindarajp" class="inline-flex items-center gap-2 px-4 py-2 font-bold text-white bg-blue-600 rounded-lg shadow-md hover:bg-blue-700 transition-all duration-300 transform hover:scale-105 hover:shadow-lg" title="View My Digital badges" target="_blank">
+                    <i class="fas fa-certificate"></i>
+                    <span>View My Digital Badges</span>
+                    <span class="relative flex h-3 w-3">
+                        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-yellow-400 opacity-75"></span>
+                        <span class="relative inline-flex rounded-full h-3 w-3 bg-yellow-500"></span>
+                    </span>
+                </a>
+            </div>
         </div>
     </div>
-
-    <footer class="text-center py-8 bg-gradient text-white">
-        <p class="text-lg mb-4">© 2024 Govindaraj Panditha | Digital Transformation Leader</p>
-        <div class="social-icons mt-4">
-            <a href="https://www.linkedin.com/in/govindarajpanditha/" class="hover:text-blue-200 transition duration-300 transform hover:scale-110" title="LinkedIn Profile"><i class="fab fa-linkedin fa-2x footer-icon"></i></a>
-            <a href="https://github.com/pgraj#" class="hover:text-blue-200 transition duration-300 transform hover:scale-110" title="GitHub Profile"><i class="fab fa-github fa-2x footer-icon"></i></a>
-            <a href="https://www.salesforce.com/trailblazer/govindarajp" class="hover:text-blue-200 transition duration-300 transform hover:scale-110" title="Salesforce Trailblazer Profile"><i class="fab fa-salesforce fa-2x footer-icon"></i></a>
-            <a href="https://govindpanditha.wordpress.com/2024/12/03/harnessing-ai-and-agile-the-future-of-program-management/" class="hover:text-blue-200 transition duration-300 transform hover:scale-110" title="WordPress Blog"><i class="fab fa-wordpress fa-2x footer-icon"></i></a>
-            <a href="https://www.credly.com/users/govindarajp" class="hover:text-blue-200 transition duration-300 transform hover:scale-110" title="Credly Badge"><img src="https://www.credly.com/badges/example-badge-image.png" alt="Credly Badge" class="footer-icon" style="width: 2em; height: auto;"></a>
-            <a href="mailto:govindaraj.panditha@outlook.com" class="hover:text-blue-200 transition duration-300 transform hover:scale-110" title="Email"><i class="fas fa-envelope fa-2x footer-icon"></i></a>
+   
+    <footer class="py-8 bg-gradient text-white animate__animated animate__fadeIn">
+        <div class="container mx-auto px-4 max-w-4xl">
+            <p class="text-lg mb-4 text-center">© 2024 Govindaraj Panditha | Digital Transformation Leader</p>
+            <div class="social-icons mt-4">
+                <a href="https://www.linkedin.com/in/govindarajpanditha/" class="hover:text-blue-200 transition duration-300" title="LinkedIn Profile">
+                    <i class="fab fa-linkedin fa-2x footer-icon"></i>
+                </a>
+                <a href="https://pgraj.github.io/MyDetails/#" class="hover:text-blue-200 transition duration-300" title="GitHub Profile">
+                    <i class="fab fa-github fa-2x footer-icon"></i>
+                </a>
+                <a href="https://www.salesforce.com/trailblazer/govindarajp" class="hover:text-blue-200 transition duration-300" title="Salesforce Trailblazer Profile">
+                    <i class="fab fa-salesforce fa-2x footer-icon"></i>
+                </a>
+                <a href="https://govindpanditha.wordpress.com/2024/12/03/harnessing-ai-and-agile-the-future-of-program-management/" class="hover:text-blue-200 transition duration-300" title="WordPress Blog">
+                    <i class="fab fa-wordpress fa-2x footer-icon"></i>
+                </a>
+                <a href="mailto:govindaraj.panditha@outlook.com" class="hover:text-blue-200 transition duration-300" title="Email">
+                    <i class="fas fa-envelope fa-2x footer-icon"></i>
+                </a>
+            </div>
         </div>
     </footer>
+
+    <!-- JavaScript for Animations -->
+    <script>
+        // Intersection Observer for fade-in animations
+        document.addEventListener('DOMContentLoaded', () => {
+            // Animate progress bars
+            setTimeout(() => {
+                document.querySelectorAll('.progress-bar').forEach(bar => {
+                    const width = bar.getAttribute('data-width');
+                    bar.style.width = width + '%';
+                });
+            }, 500);
+            
+            // Animate about paragraphs
+            const aboutObserver = new IntersectionObserver((entries) => {
+                entries.forEach((entry, index) => {
+                    if (entry.isIntersecting) {
+                        setTimeout(() => {
+                            entry.target.classList.add('fade-in');
+                        }, index * 200); // Staggered delay
+                    }
+                });
+            });
+            
+            document.querySelectorAll('.about-paragraph').forEach(item => {
+                aboutObserver.observe(item);
+            });
+            
+            // Animate timeline items
+            const timelineObserver = new IntersectionObserver((entries) => {
+                entries.forEach((entry, index) => {
+                    if (entry.isIntersecting) {
+                        setTimeout(() => {
+                            entry.target.classList.add('fade-in');
+                        }, index * 300); // Staggered delay
+                    }
+                });
+            });
+            
+            document.querySelectorAll('.timeline-item').forEach(item => {
+                timelineObserver.observe(item);
+            });
+
+            // Add hover effect to certification badges
+            document.querySelectorAll('.cert-badge').forEach(badge => {
+                badge.addEventListener('mouseenter', () => {
+                    badge.classList.add('animate__animated', 'animate__pulse');
+                });
+                badge.addEventListener('mouseleave', () => {
+                    badge.classList.remove('animate__animated', 'animate__pulse');
+                });
+            });
+        });
+    </script>
 </body>
 </html>
